@@ -7,7 +7,7 @@ class Controller extends BaseController
 {
     private $cli;
 
-    private $available_commands = [];
+    protected $available_commands = [];
 
     public function __construct()
     {
