@@ -46,6 +46,16 @@ abstract class Commands
      */
     public function description()
     {
+        if (substr($this->description, 0, 5) == 'lang:') {
+            $description = substr($this->description, 5);
+
+            if ($desc = $this->CI->lang->line($description)) {
+                return $desc;
+            }
+
+            return $description;
+        }
+
         return $this->description;
     }
 
@@ -78,7 +88,7 @@ abstract class Commands
 
         $arguments = $console->argument_manager();
 
-        $arguments->description($this->description);
+        $arguments->description($this->description());
         $this->register($arguments);
 
         try {
