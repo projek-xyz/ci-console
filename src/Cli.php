@@ -22,13 +22,6 @@ class Cli
      */
     protected $commands = [];
 
-    /**
-     * Configuration
-     *
-     * @var array
-     */
-    protected $config = [];
-
     public function __construct(array $config = [])
     {
         $this->climate = new CLImate();
@@ -47,10 +40,10 @@ class Cli
             ]
         ]);
 
-        // $this->addCommands([
-        //     Commands\Install::class,
-        //     Commands\Migration::class,
-        // ]);
+        if (isset($config['available_commands']) && is_array($config['available_commands'])) {
+            $this->addCommands($config['available_commands']);
+        }
+
     }
 
     /**

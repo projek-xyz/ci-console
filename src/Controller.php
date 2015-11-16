@@ -5,15 +5,16 @@ use Projek\CI\Common\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    private $cli;
+
+    private $available_commands = [];
+
     public function __construct()
     {
         is_cli() or die('This class should be called via CLI only');
 
         parent::__construct();
-    }
 
-    public function index()
-    {
         $this->load->language('console/console');
 
         $console_configs = [];
@@ -21,9 +22,17 @@ class Controller extends BaseController
             $console_configs = $this->config->item('console');
         }
 
-        $args = func_get_args();
-        $console = new Cli($console_configs);
+        $this->cli = new Cli($console_configs);
+    }
 
-        return $console->execute($args);
+    final public function index()
+    {
+        $args = func_get_args();
+
+        if (!empty($this->available_commands)) {
+            $this->cli->add_commands($this->available_commands);
+        }
+
+        return $this->cli->execute($args);
     }
 }
