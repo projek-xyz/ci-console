@@ -1,0 +1,40 @@
+{
+    "name": "projek-xyz/ci-console",
+    "description": "CLI Module for Projek.xyz CI3 Starter Kit",
+    "homepage": "http://www.projek.xyz/ci-console",
+    "type": "projek-ci-module",
+    "license": "MIT",
+    "keywords": [
+        "codeigniter", "projek-xyz-ci", "projek-ci-module", "module", "cli"
+    ],
+    "authors": [
+        {
+            "name": "Fery Wardiyanto",
+            "email": "hallo@feryardiant.me",
+            "homepage": "http://feryardiant.me",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "hallo@feryardiant.me"
+    },
+    "autoload": {
+        "psr-4": {
+            "Projek\\CI\\Console\\": "src/"
+        }
+    },
+    "extra": {
+        "projek-module-name": "console"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "projek-xyz/ci-installer": "dev-master",
+        "league/climate": "~3.2"
+    },
+    "require-dev": {
+        "codeigniter/framework": "dev-3.0-stable",
+        "phpunit/phpunit": "~4.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
