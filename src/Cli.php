@@ -47,10 +47,10 @@ class Cli
             ]
         ]);
 
-        $this->addCommands([
-            Commands\Install::class,
-            Commands\Migration::class,
-        ]);
+        // $this->addCommands([
+        //     Commands\Install::class,
+        //     Commands\Migration::class,
+        // ]);
     }
 
     /**
