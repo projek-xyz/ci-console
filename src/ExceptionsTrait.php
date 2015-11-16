@@ -1,8 +1,6 @@
 <?php
 namespace Projek\CI\Console;
 
-use CI_Exceptions;
-
 trait ExceptionsTrait
 {
     private $views;

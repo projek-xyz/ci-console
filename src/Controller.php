@@ -14,7 +14,7 @@ class Controller extends BaseController
 
     public function index()
     {
-        $this->load->lang('console/console');
+        $this->load->language('console/console');
 
         $console_configs = [];
         if ($this->load->config('console/console', true, true)) {
