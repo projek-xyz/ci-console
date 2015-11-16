@@ -33,7 +33,7 @@ class Cli
     {
         $this->climate = new CLImate();
 
-        $this->climate->addArt(__DIR__ . '/Console/arts');
+        $this->climate->addArt(__DIR__ . '/arts');
         $this->climate->setArgumentManager(new Arguments\Manager());
         $this->climate->extend(Extensions\Tab::class, 'tab');
 
@@ -42,7 +42,7 @@ class Cli
             'help' => [
                 'prefix' => 'h',
                 'longPrefix' => 'help',
-                'description' => lang('console_display_help'),
+                'description' => static::lang('console_display_help'),
                 'noValue' => true
             ]
         ]);
@@ -61,6 +61,12 @@ class Cli
     public function climate()
     {
         return $this->climate;
+    }
+
+    public static function lang($line)
+    {
+        $ci =& get_instance();
+        return $ci->lang->line($line);
     }
 
     /**
@@ -156,7 +162,7 @@ class Cli
         $this->usage($args);
 
         $this->climate->br()->out(
-            sprintf('<yellow>%s</yellow>:', lang('console_commands_available'))
+            sprintf('<yellow>%s</yellow>:', static::lang('console_commands_available'))
         );
 
         $len = [];

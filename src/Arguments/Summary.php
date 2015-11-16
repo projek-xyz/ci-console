@@ -2,6 +2,7 @@
 namespace Projek\CI\Console\Arguments;
 
 use League\CLImate\Argument\Summary as BaseSummary;
+use Projek\CI\Console\Cli;
 
 class Summary extends BaseSummary
 {
@@ -17,7 +18,7 @@ class Summary extends BaseSummary
 
         // Print the usage statement with the arguments without a prefix at the end.
         $this->climate->out(
-            sprintf('<yellow>%s</yellow>: %s ', lang('console_commands_usage'), $this->command) . $this->short($this->getOrderedArguments())
+            sprintf('<yellow>%s</yellow>: %s ', Cli::lang('console_commands_usage'), $this->command) . $this->short($this->getOrderedArguments())
         );
 
         // Print argument details.
@@ -36,7 +37,7 @@ class Summary extends BaseSummary
         }
 
         $this->climate->br()->out(
-            sprintf('<yellow>%s</yellow>:', lang('console_argument_'.$type))
+            sprintf('<yellow>%s</yellow>:', Cli::lang('console_argument_'.$type))
         );
 
         $len = [];
