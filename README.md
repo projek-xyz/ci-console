@@ -27,6 +27,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Credits
 
+- [CodeIgniter](http://codeigniter.com)
 - [Climate](http://climate.thephpleague.com)
 
 ## License

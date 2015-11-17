@@ -15,6 +15,7 @@ Icon?
 # ------------------------
 /vendor/
 /node_modules/
+composer.lock
 
 # IDE Files
 #-------------------------
