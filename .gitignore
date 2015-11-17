@@ -11,11 +11,16 @@ Icon?
 *~
 *.zip
 
+# Application files
+# ------------------------
+.env
+
 # Dependency folders
 # ------------------------
-/vendor/
-/node_modules/
+vendor/
 composer.lock
+coveralls-upload.json
+clover.xml
 
 # IDE Files
 #-------------------------
@@ -30,4 +35,4 @@ nbproject/
 # ------------------------
 !index.html
 !.htaccess
-!.keep
+!.gitkeep
