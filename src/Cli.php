@@ -161,7 +161,7 @@ class Cli
      */
     public function help(array $args = [])
     {
-        $this->climate->draw('creasi-logo');
+        $this->climate->draw('main-logo');
 
         $this->usage($args);
 
