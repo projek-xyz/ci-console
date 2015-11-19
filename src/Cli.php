@@ -9,6 +9,13 @@ use Projek\CI\Console\Extensions\TabExtension;
 class Cli
 {
     /**
+     * Codeigniter instance
+     *
+     * @var mixed
+     */
+    protected $CI;
+
+    /**
      * CLImate instance
      *
      * @var League\CLImate\CLImate
@@ -25,6 +32,7 @@ class Cli
     public function __construct(array $config = [])
     {
         $this->climate = new CLImate();
+        $this->CI =& get_instance();
 
         $this->climate->addArt(__DIR__ . '/arts');
         $this->climate->setArgumentManager(new Arguments\Manager());
@@ -56,6 +64,12 @@ class Cli
         return $this->climate;
     }
 
+    /**
+     * Codeigniter language shortcut
+     *
+     * @param  string $line
+     * @return string
+     */
     public static function lang($line)
     {
         $ci =& get_instance();
@@ -77,21 +91,20 @@ class Cli
     /**
      * Register new command
      *
-     * @param string|Projek\CI\Console\Commands $command Command instances
+     * @param string|\Projek\CI\Console\Commands $command Command instances
      */
     public function add_command($command)
     {
         if (is_string($command)) {
-            $ci =& get_instance();
-            $command = (new \ReflectionClass($command))->newInstance($ci);
+            $command = (new \ReflectionClass($command))->newInstance($this->CI);
         }
 
         if (!$command instanceof Commands) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Argument 1 passed to %s must be an instance of %s, %s given',
-                    __NAMESPACE__ . '\Console::add_command()',
-                    __NAMESPACE__ . '\Console\Commands',
+                    __NAMESPACE__ . '\Cli::add_command()',
+                    __NAMESPACE__ . '\Commands',
                     gettype($command)
                 )
             );
@@ -177,13 +190,15 @@ class Cli
     /**
      * Draw Creasi.co Banner
      *
-     * @return Projek\CI\Console
+     * @return \Projek\CI\Console
      */
     public function usage(array $args = [], $command = '')
     {
         if (empty($args)) {
-            $command or $command = '[command]';
-            array_unshift($args, './creasi '.$command);
+            global $argv;
+
+            $command or $command = isset($argv[1]) ? $argv[1] : '[command]';
+            array_unshift($args, $argv[0], $command);
         }
 
         return $this->climate->usage($args);
@@ -193,7 +208,7 @@ class Cli
      * Toggle ANSI support on or off
      *
      * @param  bool $enable Switcer on or off
-     * @return Projek\CI\Console
+     * @return \Projek\CI\Console
      */
     public function force_ansi($enable = true)
     {
