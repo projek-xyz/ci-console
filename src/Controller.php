@@ -17,12 +17,16 @@ class Controller extends BaseController
 
         $this->load->language('console/console');
 
-        $console_configs = [];
+        $configs = [];
         if ($this->load->config('console/console', true, true)) {
-            $console_configs = $this->config->item('console');
+            $configs = $this->config->item('console/console');
         }
 
-        $this->cli = new Cli($console_configs);
+        if ($this->load->config('console', true, true)) {
+            $configs = array_merge($configs, $this->config->item('console'));
+        }
+
+        $this->cli = new Cli($configs);
     }
 
     final public function index()

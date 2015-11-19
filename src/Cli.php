@@ -13,7 +13,7 @@ class Cli
      *
      * @var mixed
      */
-    protected $CI;
+    protected static $CI;
 
     /**
      * CLImate instance
@@ -32,9 +32,9 @@ class Cli
     public function __construct(array $config = [])
     {
         $this->climate = new CLImate();
-        $this->CI =& get_instance();
+        self::$CI =& get_instance();
 
-        $this->climate->addArt(__DIR__ . '/arts');
+        $this->climate->addArt($config['art_directory']);
         $this->climate->setArgumentManager(new Arguments\Manager());
         $this->climate->extend(Extensions\Tab::class, 'tab');
 
@@ -48,10 +48,9 @@ class Cli
             ]
         ]);
 
-        if (isset($config['available_commands']) && is_array($config['available_commands'])) {
+        if (!empty($config['available_commands']) && is_array($config['available_commands'])) {
             $this->addCommands($config['available_commands']);
         }
-
     }
 
     /**
@@ -72,8 +71,7 @@ class Cli
      */
     public static function lang($line)
     {
-        $ci =& get_instance();
-        return $ci->lang->line($line);
+        return self::$CI->lang->line($line);
     }
 
     /**
@@ -96,7 +94,7 @@ class Cli
     public function add_command($command)
     {
         if (is_string($command)) {
-            $command = (new \ReflectionClass($command))->newInstance($this->CI);
+            $command = (new \ReflectionClass($command))->newInstance(self::$CI);
         }
 
         if (!$command instanceof Commands) {
