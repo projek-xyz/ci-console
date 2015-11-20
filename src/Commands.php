@@ -82,10 +82,6 @@ abstract class Commands
      */
     public function initialize($args, Cli $console)
     {
-        if (! class_exists('CI_Model')) {
-            load_class('Model', 'core');
-        }
-
         $arguments = $console->argument_manager();
 
         $arguments->description($this->description());
