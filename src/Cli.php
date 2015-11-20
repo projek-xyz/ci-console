@@ -401,7 +401,9 @@ class Cli
      */
     public function progress($total = null)
     {
-        return $this->climate->progress($total);
+        if ($this->hasSttyAvailable()) {
+            return $this->climate->progress($total);
+        }
     }
 
     /**
@@ -419,21 +421,24 @@ class Cli
      */
     public function input($prompt, $default = '', $acceptable = null, $strict = false)
     {
-        $input = $this->climate->input($prompt);
+        if ($this->hasSttyAvailable()) {
+            $input = $this->climate->input($prompt);
 
-        if (! empty($default)) {
-            $input->defaultTo($default);
+            if (! empty($default)) {
+                $input->defaultTo($default);
+            }
+
+            if (null !== $acceptable) {
+                $input->accept($acceptable, true);
+            }
+
+            if (true === $strict) {
+                $input->strict();
+            }
+
+            return $input->prompt();
         }
-
-        if (null !== $acceptable) {
-            $input->accept($acceptable, true);
-        }
-
-        if (true === $strict) {
-            $input->strict();
-        }
-
-        return $input->prompt();
+        return $default;
     }
 
     /**
@@ -444,9 +449,12 @@ class Cli
      */
     public function password($prompt)
     {
-        $password = $this->climate->password($prompt);
+        if ($this->hasSttyAvailable()) {
+            $password = $this->climate->password($prompt);
 
-        return $password->prompt();
+            return $password->prompt();
+        }
+        return '';
     }
 
     /**
@@ -457,9 +465,12 @@ class Cli
      */
     public function confirm($prompt)
     {
-        $confirm = $this->climate->confirm($prompt);
+        if ($this->hasSttyAvailable()) {
+            $confirm = $this->climate->confirm($prompt);
 
-        return $confirm->confirmed();
+            return $confirm->confirmed();
+        }
+        return '';
     }
 
     /**
@@ -471,9 +482,12 @@ class Cli
      */
     public function checkboxes($prompt, array $options)
     {
-        $checkboxes = $this->climate->checkboxes($prompt, $options);
+        if ($this->hasSttyAvailable()) {
+            $checkboxes = $this->climate->checkboxes($prompt, $options);
 
-        return $checkboxes->prompt();
+            return $checkboxes->prompt();
+        }
+        return '';
     }
 
     /**
@@ -485,9 +499,12 @@ class Cli
      */
     public function radio($prompt, array $options)
     {
-        $radio = $this->climate->radio($prompt, $options);
+        if ($this->hasSttyAvailable()) {
+            $radio = $this->climate->radio($prompt, $options);
 
-        return $radio->prompt();
+            return $radio->prompt();
+        }
+        return '';
     }
 
     /**
@@ -535,5 +552,17 @@ class Cli
     public function clear()
     {
         return $this->climate->clear();
+    }
+
+    /**
+     * Check if STTY available
+     *
+     * @return bool
+     */
+    private function hasSttyAvailable()
+    {
+        exec('stty 2>&1', $output, $exitcode);
+
+        return $exitcode === 0;
     }
 }
