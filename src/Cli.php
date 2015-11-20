@@ -559,7 +559,7 @@ class Cli
      *
      * @return bool
      */
-    private function hasSttyAvailable()
+    public function hasSttyAvailable()
     {
         exec('stty 2>&1', $output, $exitcode);
 
