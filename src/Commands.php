@@ -69,9 +69,10 @@ abstract class Commands
     /**
      * Execute command
      *
-     * @param Projek\CI\Console\Cli $console
+     * @param Projek\CI\Console\Cli
+     * @param Projek\CI\Console\Arguments\Manager
      */
-    abstract protected function execute(Cli $console);
+    abstract protected function execute(Cli $console, Arguments\Manager $arguments = null);
 
     /**
      * Initialize commands
