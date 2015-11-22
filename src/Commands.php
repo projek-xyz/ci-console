@@ -89,14 +89,19 @@ abstract class Commands
 
         try {
             $arguments->parse($args);
-            $executed = $this->execute($console);
+
+            if ($arguments->defined('help')) {
+                return $console->usage([], $this->name);
+            }
+
+            $executed = $this->execute($console, $arguments);
         } catch (\Exception $e) {
             $executed = false;
             return EXIT_USER_INPUT;
         }
 
-        if (!$executed or $arguments->defined('help')) {
-            return $console->usage($args, $this->name);
+        if (!$executed) {
+            return $console->usage([], $this->name);
         }
     }
 }
