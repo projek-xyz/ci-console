@@ -84,6 +84,14 @@ abstract class Commands
     {
         // Set command description
         $command->set_description($this->description);
+        // Every single command should have help, right?
+        $command->add_arg('help', [
+            'prefix'      => 'h',
+            'longPrefix'  => 'help',
+            'description' => Cli::lang('console_display_help'),
+            'noValue'     => true
+        ]);
+
         // Register command arguments
         $this->register($command);
 

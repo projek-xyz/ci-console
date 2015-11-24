@@ -223,17 +223,17 @@ class Cli
     /**
      * Set a program's description.
      *
-     * @param string $description
+     * @param string $desc
      */
-    public function set_description($description)
+    public function set_description($desc)
     {
-        if (substr($this->description, 0, 5) == 'lang:') {
-            $description = substr($this->description, 5);
-            if ($desc = self::lang($description)) {
-                return $this->climate->arguments->description($desc);
+        if (substr($desc, 0, 5) == 'lang:') {
+            $desc = substr($desc, 5);
+            if ($_desc = self::lang($desc)) {
+                return $this->climate->arguments->description($_desc);
             }
         }
-        return $this->climate->arguments->description($description);
+        return $this->climate->arguments->description($desc);
     }
 
     /**
