@@ -188,8 +188,8 @@ class Cli
     /**
      * Toggle ANSI support on or off
      *
-     * @param  bool $enable Switcer on or off
-     * @return \Projek\CI\Console
+     * @param bool $enable Switcer on or off
+     * @param \Projek\CI\Console\Cli
      */
     public function force_ansi($enable = true)
     {
@@ -203,9 +203,10 @@ class Cli
     }
 
     /**
-     * Draw Creasi.co Banner
+     * Output a script's usage statement.
      *
-     * @return \Projek\CI\Console
+     * @param CLImate $climate
+     * @param array $argv
      */
     public function usage(array $args = [], $command = '')
     {

@@ -62,47 +62,45 @@ abstract class Commands
     /**
      * Register arguments
      *
-     * @param Projek\CI\Console\Arguments\Manager
+     * @param Projek\CI\Console\Cli
      */
-    abstract protected function register(Arguments\Manager $arguments);
+    abstract protected function register(Cli $console);
 
     /**
      * Execute command
      *
      * @param Projek\CI\Console\Cli
-     * @param Projek\CI\Console\Arguments\Manager
      */
-    abstract protected function execute(Cli $console, Arguments\Manager $arguments = null);
+    abstract protected function execute(Cli $console);
 
     /**
      * Initialize commands
      *
      * @param  array                 $args    Arguments
-     * @param  Projek\CI\Console\Cli $console
+     * @param  Projek\CI\Console\Cli $command
      * @return mixed
      */
-    public function initialize($args, Cli $console)
+    public function initialize($args, Cli $command)
     {
-        $arguments = $console->argument_manager();
-
-        $arguments->description($this->description());
-        $this->register($arguments);
+        // Set command description
+        $command->set_description($this->description);
+        // Register command arguments
+        $this->register($command);
 
         try {
-            $arguments->parse($args);
+            // Parse the arguments
+            $command->parse_arg($args);
 
-            if ($arguments->defined('help')) {
-                return $console->usage([], $this->name);
+            // If ask for help
+            if ($command->get_arg('help') !== false) {
+                return $command->usage([], $this->name);
             }
 
-            $executed = $this->execute($console, $arguments);
+            // Execute actual arguments
+            return $this->execute($command);
         } catch (\Exception $e) {
             $executed = false;
             return EXIT_USER_INPUT;
-        }
-
-        if (!$executed) {
-            return $console->usage([], $this->name);
         }
     }
 }
