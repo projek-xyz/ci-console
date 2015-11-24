@@ -186,23 +186,6 @@ class Cli
     }
 
     /**
-     * Draw Creasi.co Banner
-     *
-     * @return \Projek\CI\Console
-     */
-    public function usage(array $args = [], $command = '')
-    {
-        if (empty($args)) {
-            global $argv;
-
-            $command or $command = isset($argv[1]) ? $argv[1] : '[command]';
-            array_unshift($args, $argv[0], $command);
-        }
-
-        return $this->climate->usage($args);
-    }
-
-    /**
      * Toggle ANSI support on or off
      *
      * @param  bool $enable Switcer on or off
@@ -217,6 +200,89 @@ class Cli
         }
 
         return $this;
+    }
+
+    /**
+     * Draw Creasi.co Banner
+     *
+     * @return \Projek\CI\Console
+     */
+    public function usage(array $args = [], $command = '')
+    {
+        if (empty($args)) {
+            global $argv;
+
+            $command or $command = isset($argv[1]) ? $argv[1] : '[command]';
+            array_unshift($args, $argv[0], $command);
+        }
+
+        return $this->climate->arguments->usage($args);
+    }
+
+    /**
+     * Set a program's description.
+     *
+     * @param string $description
+     */
+    public function set_description($description)
+    {
+        if (substr($this->description, 0, 5) == 'lang:') {
+            $description = substr($this->description, 5);
+            if ($desc = self::lang($description)) {
+                return $this->climate->arguments->description($desc);
+            }
+        }
+        return $this->climate->arguments->description($description);
+    }
+
+    /**
+     * Add an argument.
+     *
+     * @throws \Exception if $argument isn't an array or Argument object.
+     * @param Argument|string|array $argument
+     * @param $options
+     */
+    public function add_arg($argument, array $options = [])
+    {
+        return $this->climate->arguments->add($argument, $options);
+    }
+
+    /**
+     * Determine if an argument has been defined on the command line and get the value.
+     *
+     * @param string $name
+     * @param array $argv
+     *
+     * @return bool
+     */
+    public function get_arg($name, array $argv = null)
+    {
+        if ($this->climate->arguments->defined($name, $argv)) {
+            return $this->climate->arguments->get($name);
+        }
+        return false;
+    }
+
+    /**
+     * Determine if an argument exists.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has_arg($name)
+    {
+        return $this->climate->arguments->exist($name);
+    }
+
+    /**
+     * Parse command line arguments into CLImate arguments.
+     *
+     * @throws \Exception if required arguments aren't defined.
+     * @param array $argv
+     */
+    public function parse_arg(array $argv = null)
+    {
+        return $this->climate->arguments->parse($argv);
     }
 
     /**
