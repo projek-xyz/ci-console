@@ -217,7 +217,7 @@ class Cli
             array_unshift($args, $argv[0], $command);
         }
 
-        return $this->climate->arguments->usage($args);
+        return $this->climate->arguments->usage($this->climate, $args);
     }
 
     /**
